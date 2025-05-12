@@ -3,6 +3,7 @@ import { Link } from '@tanstack/react-router'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -10,11 +11,14 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '../ui/sidebar'
+import { ModeToggle } from '@/integrations/color-shemes/mode-toggle'
 
 const ORSidebar = () => {
+  const { open } = useSidebar()
   return (
-    <Sidebar side="left" variant="inset">
+    <Sidebar side="left" variant={open ? 'inset' : 'sidebar'}>
       <SidebarHeader className="flex flex-row items-center text-lg font-bold">
         <Tractor /> Ollama Ranch
       </SidebarHeader>
@@ -35,6 +39,9 @@ const ORSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <ModeToggle />
+      </SidebarFooter>
     </Sidebar>
   )
 }

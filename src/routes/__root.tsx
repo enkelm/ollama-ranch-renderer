@@ -5,9 +5,10 @@ import TanstackQueryLayout from '../integrations/tanstack-query/layout'
 
 import type { QueryClient } from '@tanstack/react-query'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import { SidebarInset, useSidebar } from '@/components/ui/sidebar'
 import ORSidebar from '@/components/layout/sidebar'
 import ORHeader from '@/components/layout/header'
+import { cn } from '@/lib/utils'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -15,14 +16,15 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => {
+    const { open } = useSidebar()
     return (
-      <SidebarProvider defaultOpen>
+      <>
         <ORSidebar />
 
         <SidebarInset>
-          <Card className="h-full">
+          <Card className={cn('h-full', { 'rounded-none': !open })}>
             <CardHeader className="border-b-2 pb-3">
-              <CardTitle className="flex h-5 items-center space-x-4 text-sm">
+              <CardTitle>
                 <ORHeader />
               </CardTitle>
             </CardHeader>
@@ -34,11 +36,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
         {import.meta.env.DEV && (
           <>
-            <TanStackRouterDevtools />
+            <TanStackRouterDevtools position="bottom-right" />
             <TanstackQueryLayout />
           </>
         )}
-      </SidebarProvider>
+      </>
     )
   },
 })

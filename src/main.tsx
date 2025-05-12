@@ -9,6 +9,8 @@ import { routeTree } from './routeTree.gen'
 
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
+import { ThemeProvider } from './integrations/color-shemes/theme-provider.tsx'
+import { SidebarProvider } from './components/ui/sidebar.tsx'
 
 // Create a new router instance
 const router = createRouter({
@@ -36,7 +38,11 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <TanstackQuery.Provider>
-        <RouterProvider router={router} />
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <SidebarProvider defaultOpen>
+            <RouterProvider router={router} />
+          </SidebarProvider>
+        </ThemeProvider>
       </TanstackQuery.Provider>
     </StrictMode>,
   )

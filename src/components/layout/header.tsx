@@ -1,4 +1,4 @@
-import { Link, useMatches } from '@tanstack/react-router'
+import { Link, useLocation, useMatches } from '@tanstack/react-router'
 import { Fragment, useMemo } from 'react'
 import {
   Breadcrumb,
@@ -7,10 +7,17 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '../ui/breadcrumb'
-import { SidebarTrigger } from '../ui/sidebar'
+import { SidebarTrigger, useSidebar } from '../ui/sidebar'
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+} from '../ui/navigation-menu'
+import { Button } from '../ui/button'
 import type { JSX } from 'react/jsx-runtime'
+import { ModeToggle } from '@/integrations/color-shemes/mode-toggle'
 
-const ORHeader = () => {
+const MinimizedHeader = () => {
   const matches = useMatches()
 
   const breadCrumbs = useMemo(
@@ -47,13 +54,54 @@ const ORHeader = () => {
   console.debug(breadCrumbs.length)
 
   return (
-    <>
+    <nav className="flex items-center space-x-4 text-sm">
       <SidebarTrigger />
       <Breadcrumb>
         <BreadcrumbList>{breadCrumbs}</BreadcrumbList>
       </Breadcrumb>
-    </>
+    </nav>
   )
+}
+
+const MaximizedHeader = () => {
+  const location = useLocation()
+
+  return (
+    <section className="w-full animate-in flex flex-row justify-between items-center">
+      <div className="flex h-5 items-center space-x-4 text-sm">
+        <SidebarTrigger />
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem asChild>
+              <Button variant={location.pathname !== '/' ? 'ghost' : 'outline'}>
+                <Link className="font-bold text-lg" to="/">
+                  Home
+                </Link>
+              </Button>
+            </NavigationMenuItem>
+            <NavigationMenuItem asChild>
+              <Button
+                variant={location.pathname !== '/chat' ? 'ghost' : 'outline'}
+              >
+                <Link className="font-bold text-lg" to="/chat">
+                  Chat
+                </Link>
+              </Button>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
+      <div>
+        <ModeToggle />
+      </div>
+    </section>
+  )
+}
+
+const ORHeader = () => {
+  const { open } = useSidebar()
+
+  return !open ? <MaximizedHeader /> : <MinimizedHeader />
 }
 
 export default ORHeader
