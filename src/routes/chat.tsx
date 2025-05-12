@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/')({
-  loader: () => ({ crumb: 'Home' }),
+export const Route = createFileRoute('/chat')({
+  loader: () => ({ crumb: 'Chat' }),
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/"!</div>
+  return <h1>hello world!</h1>
 }
