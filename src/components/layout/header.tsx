@@ -51,8 +51,6 @@ const MinimizedHeader = () => {
     [matches],
   )
 
-  console.debug(breadCrumbs.length)
-
   return (
     <nav className="flex items-center space-x-4 text-sm">
       <SidebarTrigger />

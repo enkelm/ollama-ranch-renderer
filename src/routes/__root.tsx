@@ -28,7 +28,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 <ORHeader />
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="h-full">
               <Outlet />
             </CardContent>
           </Card>
